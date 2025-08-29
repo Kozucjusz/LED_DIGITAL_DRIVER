@@ -1,0 +1,8 @@
+/.vscode
+/cmake
+/CMakeFiles
+/CMakeCache.txt
+/CMakeLists.txt
+/CMakePresets.json
+/KiCad
+/build
