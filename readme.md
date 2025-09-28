@@ -2,7 +2,7 @@
 Sterownik umożliwia precyzyjną regulację jasności i koloru diod LED poprzez potencjometry cyfrowe, zasilany stabilnym napięciem prądowym. Całość jest zarządzana poprzez mikrokontroler napisany w C w środowisku VS Code, z wykorzystaniem HAL i własnych bibliotek sterujących.
 Dodatkowo projekt implementuje komunikację **1‑Wire** z mikrokontrolera STM32 za pośrednictwem mostka komunikacyjnego **DS28E18**. Rozwiązanie to pozwala w prosty sposób przesyłać dane sterujące przy użyciu pojedynczej linii sygnałowej, co znacznie upraszcza topologię połączeń i redukuje liczbę wymaganych pinów na mikrokontrolerze. Dzięki temu możliwe jest tworzenie skalowalnych i estetycznych instalacji, w których cała komunikacja opiera się o zaledwie jedną linię transmisyjną oraz masę.
 
-<a href="url"><img src="Schematics/LED_DIGITAL_DRIVER_SCH.pdf" width=50% height=50%  ></a>
+<a href="url"><img src="Schematics/LED_DIGITAL_DRIVER_SCH.png" width=75% height=75%  ></a>
 
 ## 2. Opis PCB i kluczowych elementów
 Płytka została zaprojektowana w oparciu o sprawdzone układy scalone i elementy dyskretne.  
