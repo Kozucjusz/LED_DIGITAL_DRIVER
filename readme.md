@@ -15,9 +15,9 @@ Key components include:
 
 The PCB was designed as a small, double-sided board, which facilitates manufacturing and testing.
 
-<a href="url"><img src="Schematics/pcb2.jpg" width=30% height=30% ></a>
-<a href="url"><img src="Schematics/pcb1.jpg" width=30% height=30% ></a>
-<a href="url"><img src="Schematics/operation.gif" width=23% height=23% ></a>
+<a href="url"><img src="Schematics/pcb2.jpg" width=22% height=22% ></a>
+<a href="url"><img src="Schematics/pcb1.jpg" width=21% height=21% ></a>
+<a href="url"><img src="Schematics/operation.gif" width=22% height=22% ></a>
 
 ## 3. Functioning
 The system is controlled by an **STM32** microcontroller, for which the firmware was developed in **C**.
