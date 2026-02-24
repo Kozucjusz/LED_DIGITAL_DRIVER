@@ -3,7 +3,7 @@ The controller enables precise adjustment of LED brightness and color using digi
 
 In addition, the project implements **1‑Wire** communication from an STM32 microcontroller via the **DS28E18** communication bridge. This solution allows control data to be transmitted easily using a single signal line, which significantly simplifies the connection topology and reduces the number of required microcontroller pins. As a result, it is possible to create simple and uncomplicated designs in which all communication is based on just a single transmission line and ground.
 
-<a href="url"><img src="Schematics/LED_DIGITAL_DRIVER_SCH.png" width=75% height=75%  ></a>
+<a href="Schematics/LED_DIGITAL_DRIVER_SCH.png"><img src="Schematics/LED_DIGITAL_DRIVER_SCH.png" width=75% height=75%  ></a>
 
 ## 2. PCB Description and Key Components
 The PCB was designed using proven integrated circuits and discrete components.
@@ -15,9 +15,9 @@ Key components include:
 
 The PCB was designed as a small, double-sided board, which facilitates manufacturing and testing.
 
-<a href="url"><img src="Schematics/pcb2.jpg" width=22% height=22% ></a>
-<a href="url"><img src="Schematics/pcb1.jpg" width=21% height=21% ></a>
-<a href="url"><img src="Schematics/operation.gif" width=22% height=22% ></a>
+<a href="Schematics/pcb2.jpg"><img src="Schematics/pcb2.jpg" width=22% height=22% ></a>
+<a href="Schematics/pcb1.jpg"><img src="Schematics/pcb1.jpg" width=21% height=21% ></a>
+<a href="Schematics/operation.gif"><img src="Schematics/operation.gif" width=22% height=22% ></a>
 
 ## 3. Functioning
 The system is controlled by an **STM32** microcontroller, for which the firmware was developed in **C**.
