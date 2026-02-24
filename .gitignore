@@ -6,3 +6,5 @@
 /CMakePresets.json
 /KiCad
 /build
+.clang-format
+.clangd

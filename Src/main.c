@@ -1,65 +1,72 @@
 #include "main.h"
-#include "usart.h"
+#include "KMlib_1wire.h"
+#include "KMlib_AD5282.h"
+#include "KMlib_DS28E18.h"
 #include "gpio.h"
-#include "1wire_pot.h"
-#include <stdio.h>
+#include "stm32_hal_legacy.h"
+#include "stm32g4xx_hal.h"
+#include "usart.h"
+
 
 COM_InitTypeDef BspCOMInit;
 
 void SystemClock_Config(void);
 
-/**
- * @brief  The application entry point.
- * @retval int
- */
-int main(void)
-{
+int main(void) {
   HAL_Init();
   SystemClock_Config();
   MX_GPIO_Init();
-  // MX_USART1_UART_Init();
+  MX_USART1_UART_Init();
 
-  BSP_LED_Init(LED_GREEN);
-  BSP_PB_Init(BUTTON_USER, BUTTON_MODE_EXTI);
-
-  /* Initialize COM1 port (115200, 8 bits (7-bit data + 1 stop bit), no parity */
   BspCOMInit.BaudRate = 115200;
   BspCOMInit.WordLength = COM_WORDLENGTH_8B;
   BspCOMInit.StopBits = COM_STOPBITS_1;
   BspCOMInit.Parity = COM_PARITY_NONE;
   BspCOMInit.HwFlowCtl = COM_HWCONTROL_NONE;
-  if (BSP_COM_Init(COM1, &BspCOMInit) != BSP_ERROR_NONE)
-  {
+  if (BSP_COM_Init(COM1, &BspCOMInit) != BSP_ERROR_NONE) {
     Error_Handler();
   }
 
-  _1wire_INIT();
-  _1wire_STATUS();
-  uint8_t ROMID[8];
-  //_1wire_ROMID(ROMID);
-  //_1wire_SPI_config();
-  //_1wire_SENS_VDD_ON();
-  //_1wire_SENS_VDD_ON();
-  //_1wire_SPI_SS_HIGH();
-  //_1wire_SPI_SS_LOW();
-  //_1wire_SPI_SEQUENCER_WRITE();
-  HAL_Delay(10);
-  //_1wire_SPI_SEQUENCER_READ();
-  //HAL_Delay(10);
-  //_1wire_SPI_SEQUENCER_RUN();
+  uint8_t ROMID[8] = {0};
+  DS28E18_ROMID(ROMID);
+  DS28E18_INIT();
+  DS28E18_ROMID(ROMID);
+  DS28E18_INIT();
+  DS28E18_STATUS();
+  DS28E18_CONFIG();
+  DS28E18_WRITE_SEQ((uint8_t[]){POT0_WRITE, RDAC1_WRITE_O1_LOW, 0x00}, 3);
+  HAL_Delay(100);
+  DS28E18_WRITE_SEQ((uint8_t[]){POT0_WRITE, RDAC2_WRITE_O1_LOW, 0x00}, 3);
+  HAL_Delay(100);
+  DS28E18_WRITE_SEQ((uint8_t[]){POT3_WRITE, RDAC1_WRITE_O1_LOW, 0x00}, 3);
+  HAL_Delay(100);
+  DS28E18_WRITE_SEQ((uint8_t[]){POT3_WRITE, RDAC2_WRITE_O1_LOW, 0x00}, 3);
+  HAL_Delay(100);
 
-  while (1)
-  {
+  while (1) {
+    DS28E18_WRITE_SEQ((uint8_t[]){POT0_WRITE, RDAC1_WRITE_O1_HIGH, 0x50}, 3);
+    HAL_Delay(3000);
+    DS28E18_WRITE_SEQ((uint8_t[]){POT0_WRITE, RDAC1_WRITE_O1_LOW, 0x00}, 3);
+    HAL_Delay(100);
+
+    DS28E18_WRITE_SEQ((uint8_t[]){POT0_WRITE, RDAC2_WRITE_O1_HIGH, 0x50}, 3);
+    HAL_Delay(3000);
+    DS28E18_WRITE_SEQ((uint8_t[]){POT0_WRITE, RDAC2_WRITE_O1_LOW, 0x00}, 3);
+    HAL_Delay(100);
+
+    DS28E18_WRITE_SEQ((uint8_t[]){POT3_WRITE, RDAC1_WRITE_O1_HIGH, 0x50}, 3);
+    HAL_Delay(3000);
+    DS28E18_WRITE_SEQ((uint8_t[]){POT3_WRITE, RDAC1_WRITE_O1_LOW, 0x00}, 3);
+    HAL_Delay(100);
+
+    DS28E18_WRITE_SEQ((uint8_t[]){POT3_WRITE, RDAC2_WRITE_O1_HIGH, 0x50}, 3);
+    HAL_Delay(3000);
+    DS28E18_WRITE_SEQ((uint8_t[]){POT3_WRITE, RDAC2_WRITE_O1_LOW, 0x00}, 3);
     HAL_Delay(100);
   }
 }
 
-/**
- * @brief System Clock Configuration
- * @retval None
- */
-void SystemClock_Config(void)
-{
+void SystemClock_Config(void) {
   RCC_OscInitTypeDef RCC_OscInitStruct = {0};
   RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};
 
@@ -80,49 +87,30 @@ void SystemClock_Config(void)
   RCC_OscInitStruct.PLL.PLLP = RCC_PLLP_DIV2;
   RCC_OscInitStruct.PLL.PLLQ = RCC_PLLQ_DIV2;
   RCC_OscInitStruct.PLL.PLLR = RCC_PLLR_DIV2;
-  if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
-  {
+  if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK) {
     Error_Handler();
   }
 
   /** Initializes the CPU, AHB and APB buses clocks
    */
-  RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK | RCC_CLOCKTYPE_SYSCLK | RCC_CLOCKTYPE_PCLK1 | RCC_CLOCKTYPE_PCLK2;
+  RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK | RCC_CLOCKTYPE_SYSCLK |
+                                RCC_CLOCKTYPE_PCLK1 | RCC_CLOCKTYPE_PCLK2;
   RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_PLLCLK;
   RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
   RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV1;
   RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV1;
 
-  if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_4) != HAL_OK)
-  {
+  if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_4) != HAL_OK) {
     Error_Handler();
   }
 }
 
-/**
- * @brief  This function is executed in case of error occurrence.
- * @retval None
- */
-void Error_Handler(void)
-{
+void Error_Handler(void) {
   __disable_irq();
-  while (1)
-  {
+  while (1) {
   }
 }
 #ifdef USE_FULL_ASSERT
-/**
- * @brief  Reports the name of the source file and the source line number
- *         where the assert_param error has occurred.
- * @param  file: pointer to the source file name
- * @param  line: assert_param error line source number
- * @retval None
- */
-void assert_failed(uint8_t *file, uint32_t line)
-{
-  /* USER CODE BEGIN 6 */
-  /* User can add his own implementation to report the file name and line number,
-     ex: printf("Wrong parameters value: file %s on line %d\r\n", file, line) */
-  /* USER CODE END 6 */
-}
-#endif /* USE_FULL_ASSERT */
+
+void assert_failed(uint8_t *file, uint32_t line) {}
+#endif
