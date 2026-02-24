@@ -1,0 +1,23 @@
+#define POT0_WRITE 0x58
+#define POT1_WRITE 0x5A
+#define POT2_WRITE 0x5C
+#define POT3_WRITE 0x5E
+
+#define POT0_READ 0x59
+#define POT1_READ 0x5B
+#define POT2_READ 0x5D
+#define POT3_READ 0x5F
+
+#define RDAC1_RST_O1_LOW    0x40
+#define RDAC1_SHDN_O1_LOW   0x20
+#define RDAC1_WRITE_O1_LOW  0x00
+#define RDAC1_RST_O1_HIGH   0x50
+#define RDAC1_SHDN_O1_HIGH  0x30
+#define RDAC1_WRITE_O1_HIGH 0x10
+
+#define RDAC2_RST_O1_LOW    0xC0
+#define RDAC2_SHDN_O1_LOW   0xA0
+#define RDAC2_WRITE_O1_LOW  0x80
+#define RDAC2_RST_O1_HIGH   0xD0
+#define RDAC2_SHDN_O1_HIGH  0xB0
+#define RDAC2_WRITE_O1_HIGH 0x90
