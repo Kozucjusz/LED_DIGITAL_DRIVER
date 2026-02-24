@@ -17,7 +17,7 @@ The PCB was designed as a small, double-sided board, which facilitates manufactu
 
 <a href="url"><img src="Schematics/pcb2.jpg" width=30% height=30% ></a>
 <a href="url"><img src="Schematics/pcb1.jpg" width=30% height=30% ></a>
-<a href="url"><img src="Schematics/operation.gif" width=30% height=30% ></a>
+<a href="url"><img src="Schematics/operation.gif" width=23% height=23% ></a>
 
 ## 3. Functioning
 The system is controlled by an **STM32** microcontroller, for which the firmware was developed in **C**.
